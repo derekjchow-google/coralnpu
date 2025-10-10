@@ -16,18 +16,20 @@
 #include <stdint.h>
 #include <stdio.h>
 
+#include "sw/opt/litert-micro/depthwise_conv.h"
 #include "tensorflow/lite/core/c/common.h"
 #include "tensorflow/lite/micro/micro_interpreter.h"
 #include "tensorflow/lite/micro/micro_mutable_op_resolver.h"
 #include "tensorflow/lite/micro/system_setup.h"
 #include "tests/cocotb/tutorial/tfmicro/mobilenet_v1_025_partial_layers.h"
 
-
 namespace {
 using MobilenetOpResolver = tflite::MicroMutableOpResolver<2>;
+using coralnpu_v2::opt::litert_micro::Register_DEPTHWISE_CONV_2D;
 TfLiteStatus RegisterOps(MobilenetOpResolver& op_resolver) {
   TF_LITE_ENSURE_STATUS(op_resolver.AddConv2D());
-  TF_LITE_ENSURE_STATUS(op_resolver.AddDepthwiseConv2D());
+  TF_LITE_ENSURE_STATUS(
+      op_resolver.AddDepthwiseConv2D(Register_DEPTHWISE_CONV_2D()));
   return kTfLiteOk;
 }
 }  // namespace
@@ -35,12 +37,15 @@ TfLiteStatus RegisterOps(MobilenetOpResolver& op_resolver) {
 extern "C" {
 // aligned(16)
 constexpr size_t kTensorArenaSize = 256 * 1024;
-uint8_t inference_status __attribute__((section(".extdata"), aligned(16), used, retain));
-uint8_t tensor_arena[kTensorArenaSize] __attribute__((section(".extdata"), aligned(16), used, retain));
+uint8_t inference_status
+    __attribute__((section(".extdata"), aligned(16), used, retain));
+uint8_t tensor_arena[kTensorArenaSize]
+    __attribute__((section(".extdata"), aligned(16), used, retain));
 }
 
 int main(int argc, char** argv) {
-  const tflite::Model* model = tflite::GetModel(g_mobilenet_v1_025_partial_layers_model_data);
+  const tflite::Model* model =
+      tflite::GetModel(g_mobilenet_v1_025_partial_layers_model_data);
   MobilenetOpResolver op_resolver;
   RegisterOps(op_resolver);
   inference_status = 3;

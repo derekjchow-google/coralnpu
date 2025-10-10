@@ -59,6 +59,7 @@ verilator_cocotb_model(
     cflags = VERILATOR_BUILD_ARGS,
     hdl_toplevel = "RvvCoreMiniAxi",
     verilog_source = "//hdl/chisel/src/coralnpu:RvvCoreMiniAxi.sv",
+    trace = True,
 )
 
 verilator_cocotb_model(
@@ -66,6 +67,7 @@ verilator_cocotb_model(
     cflags = VERILATOR_BUILD_ARGS,
     hdl_toplevel = "RvvCoreMiniHighmemAxi",
     verilog_source = "//hdl/chisel/src/coralnpu:RvvCoreMiniHighmemAxi.sv",
+    trace = True,
 )
 
 # BEGIN_TESTCASES_FOR_core_mini_axi_sim_cocotb
