@@ -6,4 +6,7 @@
 //`define ISSUE_2_READ_PORT_6
 //`define ISSUE_2_READ_PORT_4
 
+// floating point
+// `define ZVE32F_ON
+
 `endif // RVV_CONFIG_SVH

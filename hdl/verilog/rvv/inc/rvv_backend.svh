@@ -39,6 +39,14 @@ typedef enum logic [1:0] {
   ROD = 3
 } RVVXRM;
 
+typedef enum logic [2:0] {
+  RNE_FRM = 0,
+  RTZ_FRM = 1,
+  RDN_FRM = 2,
+  RUP_FRM = 3,
+  RMM_FRM = 4
+} RVVFRM;
+
 // The architectural configuration state of the RVV core.
 typedef struct packed {
   logic                         vill; // This configuration is illegal
@@ -50,6 +58,9 @@ typedef struct packed {
   logic [`VCSR_VXSAT_WIDTH-1:0] xsat;   // rvv dont need this bit, but output this to rvs
   RVVSEW                        sew;
   RVVLMUL                       lmul;
+`ifdef ZVE32F_ON
+  RVVFRM                        frm;
+`endif
 } RVVConfigState;
 
 // Enum to encode the major opcode of the instruction. See "Section 5. Vector
