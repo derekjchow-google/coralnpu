@@ -264,9 +264,9 @@ class Csr(p: Parameters) extends Module {
   val mcycle    = RegInit(0.U(64.W))
   val minstret  = RegInit(0.U(64.W))
 
-  // 32-bit MXLEN, I,M,X extensions
+  // 32-bit MXLEN, I,M,B, X extensions
   val misa      = RegInit(((
-      0x40001100 |
+      0x40001102 |
       (if (p.enableRvv) { 1 << 21 /* 'V' */ } else { 0 }) |
       (if (p.enableFloat) { 1 << 5 /* 'F' */ } else { 0 })
   ).U)(32.W))
