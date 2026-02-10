@@ -745,7 +745,7 @@ end
                                         rt2vrf_write_data[gv_i].rt_index === rt2vrf_write_data[gv_j].rt_index);
           assign vstrobe_conflict[gv_i][gv_j] = vidx_eq[gv_i][gv_j] && |(rt2vrf_write_data[gv_i].rt_strobe & rt2vrf_write_data[gv_j].rt_strobe);
           VRFWriteStrobeConflict: `rvv_forbid(vstrobe_conflict[gv_i][gv_j])
-            else $error("Uop %0d write to vrf[%0d] with strobe = 0x%4h\nUop %0d write to vrf[%0d] with strobe = 0x%4h\n",
+            else $error("Uop 0 write to vrf[0] with strobe = 0x%4h\nUop 0 write to vrf[0] with strobe = 0x%4h\n",
                         gv_i, $sampled(rt2vrf_write_data[gv_i].rt_index), $sampled(rt2vrf_write_data[gv_i].rt_strobe),
                         gv_j, $sampled(rt2vrf_write_data[gv_j].rt_index), $sampled(rt2vrf_write_data[gv_j].rt_strobe));
         end else begin: gen_ignore_check

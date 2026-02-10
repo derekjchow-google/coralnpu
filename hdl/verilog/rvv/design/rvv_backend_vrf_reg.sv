@@ -36,7 +36,7 @@ generate
         );
     `ifdef ASSERT_ON
       `rvv_forbid($isunknown(vreg[i][j*`BYTE_WIDTH +: `BYTE_WIDTH]))
-        else $error("VREG: data is unknow at vreg[%0d][%0d:%0d]",i,8*j+7,8*j);
+        else $error("VREG: data is unknow at vreg[0][0:0]",i,8*j+7,8*j);
     `endif //ASSERT_ON
     end //end for loop j
   end //end for loop i
