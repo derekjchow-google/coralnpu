@@ -97,6 +97,11 @@ chisel_library(
         "rvv/RvvInterface.scala",
     ],
     resources = [
+        "//hdl/verilog/rvv/common:adder.sv",  # New
+        "//hdl/verilog/rvv/common:arb_round_robin.sv",  # New
+        "//hdl/verilog/rvv/common:barrel_shifter.sv",  # New
+        "//hdl/verilog/rvv/common:handshake_ff.sv",  # New
+        "//hdl/verilog/rvv/common:handshake_multi_fifo.sv",  # New
         "//hdl/verilog/rvv/common:cdffr.sv",
         "//hdl/verilog/rvv/common:compressor_3_2.sv",
         "//hdl/verilog/rvv/common:compressor_4_2.sv",
@@ -104,6 +109,41 @@ chisel_library(
         "//hdl/verilog/rvv/common:edff.sv",
         "//hdl/verilog/rvv/common:edff_2d.sv",
         "//hdl/verilog/rvv/common:multi_fifo.sv",
+
+        # FPNew
+        "//hdl/verilog/rvv/design:FPnew/common_cells/inc/assertions.svh",
+        "//hdl/verilog/rvv/design:FPnew/common_cells/inc/registers.svh",
+        "//hdl/verilog/rvv/design:FPnew/common_cells/src/cf_math_pkg.sv",
+        "//hdl/verilog/rvv/design:FPnew/fpnew_pkg.sv",
+        "//hdl/verilog/rvv/design:FPnew/fpu_div_sqrt_mvp/defs_div_sqrt_mvp.sv",
+        "//hdl/verilog/rvv/design:FPnew/C910_DivSqrt/gated_clk_cell.v",
+        "//hdl/verilog/rvv/design:FPnew/C910_DivSqrt/ct_vfdsu_ff1.v",
+        "//hdl/verilog/rvv/design:FPnew/C910_DivSqrt/ct_vfdsu_pack.v",
+        "//hdl/verilog/rvv/design:FPnew/C910_DivSqrt/ct_vfdsu_srt_radix16_bound_table.v",
+        "//hdl/verilog/rvv/design:FPnew/fpu_div_sqrt_mvp/iteration_div_sqrt_mvp.sv",
+        "//hdl/verilog/rvv/design:FPnew/common_cells/src/lzc.sv",
+        "//hdl/verilog/rvv/design:FPnew/fpnew_classifier.sv",
+        "//hdl/verilog/rvv/design:FPnew/fpnew_rounding.sv",
+        "//hdl/verilog/rvv/design:FPnew/C910_DivSqrt/ct_vfdsu_ctrl.v",
+        "//hdl/verilog/rvv/design:FPnew/C910_DivSqrt/ct_vfdsu_prepare.v",
+        "//hdl/verilog/rvv/design:FPnew/C910_DivSqrt/ct_vfdsu_round.v",
+        "//hdl/verilog/rvv/design:FPnew/C910_DivSqrt/ct_vfdsu_scalar_dp.v",
+        "//hdl/verilog/rvv/design:FPnew/C910_DivSqrt/ct_vfdsu_srt_radix16_with_sqrt.v",
+        "//hdl/verilog/rvv/design:FPnew/common_cells/src/rr_arb_tree.sv",
+        "//hdl/verilog/rvv/design:FPnew/fpu_div_sqrt_mvp/control_mvp.sv",
+        "//hdl/verilog/rvv/design:FPnew/fpu_div_sqrt_mvp/preprocess_mvp.sv",
+        "//hdl/verilog/rvv/design:FPnew/fpu_div_sqrt_mvp/norm_div_sqrt_mvp.sv",
+        "//hdl/verilog/rvv/design:FPnew/fpnew_cast_multi.sv",
+        "//hdl/verilog/rvv/design:FPnew/fpnew_fma_multi.sv",
+        "//hdl/verilog/rvv/design:FPnew/fpnew_noncomp.sv",
+        "//hdl/verilog/rvv/design:FPnew/C910_DivSqrt/ct_vfdsu_srt.v",
+        "//hdl/verilog/rvv/design:FPnew/fpu_div_sqrt_mvp/nrbd_nrsc_mvp.sv",
+        "//hdl/verilog/rvv/design:FPnew/C910_DivSqrt/ct_vfdsu_double.v",
+        "//hdl/verilog/rvv/design:FPnew/fpu_div_sqrt_mvp/div_sqrt_top_mvp.sv",
+        "//hdl/verilog/rvv/design:FPnew/C910_DivSqrt/ct_vfdsu_top.v",
+        "//hdl/verilog/rvv/design:FPnew/fpnew_divsqrt_multi.sv",
+        "//hdl/verilog/rvv/design:FPnew/fpnew_divsqrt_th_64_multi.sv",
+
         "//hdl/verilog/rvv/design:Aligner.sv",
         "//hdl/verilog/rvv/design:RvvCore.sv",
         "//hdl/verilog/rvv/design:RvvFrontEnd.sv",
@@ -116,6 +156,13 @@ chisel_library(
         "//hdl/verilog/rvv/design:rvv_backend_alu_unit_mask_viota.sv",
         "//hdl/verilog/rvv/design:rvv_backend_alu_unit_other.sv",
         "//hdl/verilog/rvv/design:rvv_backend_alu_unit_shift.sv",
+        "//hdl/verilog/rvv/design:rvv_backend_arb.sv",  # New
+
+        "//hdl/verilog/rvv/design:rvv_backend_decode_unit_ari_de2.sv",  # New
+        "//hdl/verilog/rvv/design:rvv_backend_decode_unit_lsu_de2.sv",  # New
+        "//hdl/verilog/rvv/design:rvv_backend_decode_unit_de2.sv",  # New
+        "//hdl/verilog/rvv/design:rvv_backend_decode_de2.sv",  # New
+
         "//hdl/verilog/rvv/design:rvv_backend_decode.sv",
         "//hdl/verilog/rvv/design:rvv_backend_decode_ctrl.sv",
         "//hdl/verilog/rvv/design:rvv_backend_decode_unit.sv",
@@ -132,14 +179,29 @@ chisel_library(
         "//hdl/verilog/rvv/design:rvv_backend_div.sv",
         "//hdl/verilog/rvv/design:rvv_backend_div_unit.sv",
         "//hdl/verilog/rvv/design:rvv_backend_div_unit_divider.sv",
+        "//hdl/verilog/rvv/design:rvv_backend_fdiv_wrapper.sv",  # New
         "//hdl/verilog/rvv/design:rvv_backend_lsu_remap.sv",
         "//hdl/verilog/rvv/design:rvv_backend_mac_unit.sv",
         "//hdl/verilog/rvv/design:rvv_backend_mul_unit.sv",
         "//hdl/verilog/rvv/design:rvv_backend_mul_unit_mul8.sv",
+
+        "//hdl/verilog/rvv/design:rvv_backend_sqrt7_rec7.sv",  # New
+        "//hdl/verilog/rvv/design:rvv_backend_fma_wrapper.sv",  # New
+        "//hdl/verilog/rvv/design:rvv_backend_fma.sv",  # New
+
         "//hdl/verilog/rvv/design:rvv_backend_mulmac.sv",
         "//hdl/verilog/rvv/design:rvv_backend_pmtrdt.sv",
         "//hdl/verilog/rvv/design:rvv_backend_pmtrdt_unit.sv",
+
+        "//hdl/verilog/rvv/design:rvv_backend_freduction.sv",  # New
+        "//hdl/verilog/rvv/design:rvv_backend_pmtrdt_unit_permutation.sv",  # New
+        "//hdl/verilog/rvv/design:rvv_backend_pmtrdt_unit_reduction_alu.sv",  # New
+        "//hdl/verilog/rvv/design:rvv_backend_pmtrdt_unit_reduction.sv",  # New
+
+        "//hdl/verilog/rvv/design:rvv_backend_retire_waw.sv",  # New
         "//hdl/verilog/rvv/design:rvv_backend_retire.sv",
+
+
         "//hdl/verilog/rvv/design:rvv_backend_rob.sv",
         "//hdl/verilog/rvv/design:rvv_backend_vrf.sv",
         "//hdl/verilog/rvv/design:rvv_backend_vrf_reg.sv",
@@ -149,6 +211,7 @@ chisel_library(
         "//hdl/verilog/rvv/inc:rvv_backend_define.svh",
         "//hdl/verilog/rvv/inc:rvv_backend_dispatch.svh",
         "//hdl/verilog/rvv/inc:rvv_backend_div.svh",
+        "//hdl/verilog/rvv/inc:rvv_backend_fma.svh",  # New
         "//hdl/verilog/rvv/inc:rvv_backend_pmtrdt.svh",
         "//hdl/verilog/rvv/inc:rvv_backend_sva.svh",
     ],
@@ -667,6 +730,7 @@ template_rule(
         "-DUSE_GENERIC",
         # RVV
         "-DTB_SUPPORT",
+        "-DVLEN_128",
         "-Wno-WIDTH",
         "-Wno-CASEINCOMPLETE",
         "-Wno-LATCH",
@@ -679,6 +743,7 @@ template_rule(
         "-Wno-WIDTHTRUNC",
         "-Wno-UNSIGNED",
         "-Ihdl/verilog/rvv/inc",
+        "-Ihdl/verilog/rvv/design/FPnew/common_cells/inc",
     ],
 )
 
