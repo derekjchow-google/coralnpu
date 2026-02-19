@@ -232,11 +232,13 @@ module rvv_backend
     logic         [`NUM_LSU-1:0]          mapinfo_valid;
     LSU_MAP_INFO_t  [`NUM_LSU-1:0]        mapinfo;
     logic         [`NUM_LSU-1:0]          pop_mapinfo;
+    logic                                 mapinfo_empty;
     logic         [`NUM_LSU-1:0]          mapinfo_almost_empty;
   // LSU result
     logic         [`NUM_LSU-1:0]          lsu_res_valid;
     UOP_LSU_t     [`NUM_LSU-1:0]          lsu_res;
     logic         [`NUM_LSU-1:0]          pop_lsu_res;
+    logic                                 lsu_res_empty;
     logic         [`NUM_LSU-1:0]          lsu_res_almost_full;
     logic         [`NUM_LSU-1:0]          lsu_res_almost_empty;
     logic         [`NUM_LSU-1:0]          uop_lsu_valid;

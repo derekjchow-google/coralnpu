@@ -485,6 +485,7 @@ class RvvCoreWrapper(p: Parameters) extends BlackBox with HasBlackBoxInline
         addResource("external/cvfpu/vendor/opene906/E906_RTL_FACTORY/gen_rtl/fpu/rtl/pa_fpu_frbus.v")
         addResource("external/cvfpu/vendor/opene906/E906_RTL_FACTORY/gen_rtl/fpu/rtl/pa_fpu_src_type.v")
         addResource("external/cvfpu/src/fpnew_divsqrt_th_32.sv")
+        addResource("external/cvfpu/src/fpnew_divsqrt_th_64_multi.sv")
     // } else {
         addResource("external/fpu_div_sqrt_mvp/hdl/defs_div_sqrt_mvp.sv")
         addResource("external/fpu_div_sqrt_mvp/hdl/iteration_div_sqrt_mvp.sv")
