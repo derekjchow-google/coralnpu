@@ -870,9 +870,14 @@ class CoreMiniAxiInterface:
     # Release reset
     await self.write_word(coralnpu_reset_csr_addr, 0)
 
-  async def wait_for_wfi(self):
-    if self.dut.io_wfi.value != 1:
-      await RisingEdge(self.dut.io_wfi)
+  async def wait_for_wfi(self, timeout_cycles=10000):
+    # print(f"timeout_cycles: {timeout_cycles}", flush=True)
+    while self.dut.io_wfi.value != 1 and timeout_cycles > 0:
+      await ClockCycles(self.dut.io_aclk, 1)
+      timeout_cycles = timeout_cycles - 1
+    #   print(f"timeout_cycles: {timeout_cycles}", flush=True)
+    # print(f"Emotional damage", flush=True)
+    assert timeout_cycles > 0
 
   async def raise_irq(self, cycles=1):
     self.dut.io_irq.value = 1

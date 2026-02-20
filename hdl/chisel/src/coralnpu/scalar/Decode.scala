@@ -510,6 +510,30 @@ class DispatchV2(p: Parameters) extends Dispatch(p) {
       mpauseInterlock(i)
   )
 
+  // when (io.inst(0).valid && io.inst(0).bits.addr === 0x0000016C.U) {
+  //   printf(cf"Tuturu:\n")
+  //   printf(cf"canDispatch(0)=${canDispatch(0)}\n")
+  //   when (io.retirement_buffer_nSpace === 0.U) {
+  //     printf(cf"Out of retirement buffer space\n")
+  //   }
+  // //   // printf(cf"io.halted=${io.halted}\n")
+  // //   // printf(cf"io.interlock=${io.interlock}\n")
+  // //   // printf(cf"jumped(0)=${jumped(0)}\n")
+  // //   // printf(cf"readAfterWrite(0)=${readAfterWrite(0)}\n")
+  // //   // printf(cf"writeAfterWrite(0)=${writeAfterWrite(0)}\n")
+  // //   // printf(cf"floatReadAfterWrite(0)=${floatReadAfterWrite(0)}\n")
+  // //   // printf(cf"floatWriteAfterWrite(0)=${floatWriteAfterWrite(0)}\n")
+  // //   // printf(cf"branchInterlock(0)=${branchInterlock(0)}\n")
+  // //   // printf(cf"fence(0)=${fence(0)}\n")
+  // //   // printf(cf"slot0Interlock(0)=${slot0Interlock(0)}\n")
+  // //   // printf(cf"lsuInterlock(0)=${lsuInterlock(0)}\n")
+  // //   // printf(cf"rvvInterlock(0)=${rvvInterlock(0)}\n")
+  // //   // printf(cf"retirement_buffer_nSpace=${io.retirement_buffer_nSpace}\n")
+  // //   // printf(cf"retirement_buffer_trap_pending=${io.retirement_buffer_trap_pending}\n")
+  // //   // printf(cf"retirement_buffer_empty=${io.retirement_buffer_empty}\n")
+  // //   // printf(cf"coreIdle=${coreIdle}\n")
+  // }
+
   // ---------------------------------------------------------------------------
   // Try-dispatch loop.
   // Back-pressure from execution units gets applied here

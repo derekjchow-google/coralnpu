@@ -751,12 +751,24 @@ module rvv_backend_decode_unit_lsu_de2
 
   // pshlsu_valid decide on whether this uop is pushed into LSU RS.
 `ifdef UNMK_USCS_LOAD_NOHANDSHAKE
-  assign pshlsu_valid = !( inst_vm & 
-                          (funct6_lsu.lsu_funct6.lsu_is_store==IS_LOAD) &
-                          ((funct6_lsu.lsu_funct6.lsu_mop==US)||(funct6_lsu.lsu_funct6.lsu_mop==CS))
-                         );
+  // assign pshlsu_valid = !( inst_vm & 
+  //                         (funct6_lsu.lsu_funct6.lsu_is_store==IS_LOAD) &
+  //                         ((funct6_lsu.lsu_funct6.lsu_mop==US)||(funct6_lsu.lsu_funct6.lsu_mop==CS))
+  //                        );
+  // always_comb begin
+  //   pshlsu_valid = !( inst_vm & 
+  //                         (funct6_lsu.lsu_funct6.lsu_is_store==IS_LOAD) &
+  //                         ((funct6_lsu.lsu_funct6.lsu_mop==US)||(funct6_lsu.lsu_funct6.lsu_mop==CS))
+  //                        );
+  // end
+  always_comb begin
+    pshlsu_valid = 'b1;
+  end
 `else
-  assign pshlsu_valid = 1'b1;
+  always_comb begin
+    pshlsu_valid = 'b1;
+  end
+  // assign pshlsu_valid = 1'b1;
 `endif
 
   // assign result to output
@@ -798,7 +810,7 @@ module rvv_backend_decode_unit_lsu_de2
       assign uop[j].last_uop_valid        = last_uop_valid[j];    
       assign uop[j].seg_field_index       = seg_field_index[j];   
       assign uop[j].pshrob_valid          = pshrob_valid[j];   
-      assign uop[j].pshlsu_valid          = pshlsu_valid;   
+      assign uop[j].pshlsu_valid          = pshlsu_valid;
     end
   endgenerate
 

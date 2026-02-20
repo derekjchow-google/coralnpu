@@ -51,9 +51,10 @@ module rvv_backend_lsu_remap
 // logic start 
 //
   // result valid 
+  logic [`NUM_LSU-1:0] result_valid_pre;
   generate
     for(i=0;i<`NUM_LSU;i++) begin: RES_VALID
-      assign result_valid[i] = mapinfo_valid[i]&lsu_res_valid[i]&mapinfo[i].valid&(!lsu_res[i].trap_valid)&(
+      assign result_valid_pre[i] = mapinfo_valid[i]&lsu_res_valid[i]&mapinfo[i].valid&(!lsu_res[i].trap_valid)&(
                                (mapinfo[i].lsu_class==IS_LOAD) & lsu_res[i].uop_lsu2rvv.vregfile_write_valid || 
                                (mapinfo[i].lsu_class==IS_STORE) & lsu_res[i].uop_lsu2rvv.lsu_vstore_last);
     end
@@ -92,8 +93,15 @@ module rvv_backend_lsu_remap
   // pop signal
   generate
     for(i=0;i<`NUM_LSU;i++) begin: GET_POP
-      assign pop_mapinfo[i] = (!lsu_res[i].trap_valid)&result_valid[i]&result_ready[i]||
-                                lsu_res[i].trap_valid&mapinfo_valid[i]&lsu_res_valid[i]&trap_ready_rob2rmp;
+      if (i == 0) begin : gen_first
+        assign pop_mapinfo[i] = (!lsu_res[i].trap_valid)&result_valid_pre[i]&result_ready[i]||
+                                  lsu_res[i].trap_valid&mapinfo_valid[i]&lsu_res_valid[i]&trap_ready_rob2rmp;
+        assign result_valid[i] = result_valid_pre[i];
+      end else begin : gen_i
+        assign pop_mapinfo[i] = pop_mapinfo[i-1] & ((!lsu_res[i].trap_valid)&result_valid_pre[i]&result_ready[i]||
+                                  lsu_res[i].trap_valid&mapinfo_valid[i]&lsu_res_valid[i]&trap_ready_rob2rmp);
+        assign result_valid[i] = result_valid_pre[i] & pop_mapinfo[i-1];
+      end
       assign pop_lsu_res[i] = pop_mapinfo[i];
     end
   endgenerate

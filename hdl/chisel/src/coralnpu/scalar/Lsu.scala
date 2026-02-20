@@ -890,6 +890,7 @@ class LsuV2(p: Parameters) extends Lsu(p) {
   val vectorUpdatedSlot = if (p.enableRvv) {
       io.rvv2lsu.get(0).ready := slot.pendingVector()
       io.rvv2lsu.get(1).ready := false.B
+
       slot.vectorUpdate(io.rvv2lsu.get(0).bits)
   } else {
       slot

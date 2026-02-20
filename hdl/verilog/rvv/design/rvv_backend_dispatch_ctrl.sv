@@ -78,7 +78,8 @@ module rvv_backend_dispatch_ctrl
                                     ~raw_uop_rob[0].vs1_wait &
                                     ~raw_uop_rob[0].vs2_wait &
                                     ~raw_uop_rob[0].vd_wait  &
-                                    ~raw_uop_rob[0].v0_wait  ;
+                                    ~raw_uop_rob[0].v0_wait  &
+                                    ~arch_hazard.vr_limit    ;
             end else if (i<`NUM_DP_UOP-1) begin : gen_i
               assign uop_valid[i] = uop_valid[i-1]           &
                                     uop_valid_uop2dp[i]      &

@@ -63,7 +63,7 @@ verilator_cocotb_model(
 
 verilator_cocotb_model(
     name = "rvv_core_mini_axi_model",
-    trace = False,
+    trace = True,
     cflags = VERILATOR_BUILD_ARGS,
     hdl_toplevel = "RvvCoreMiniAxi",
     verilog_source = "//hdl/chisel/src/coralnpu:RvvCoreMiniAxi.sv",
@@ -377,7 +377,7 @@ cocotb_test_suite(
     testcases_vname = "RVV_ASSEMBLY_TESTCASES",
     tests_kwargs = {
         "hdl_toplevel": "RvvCoreMiniAxi",
-       "waves": False,
+        "waves": True,
         "seed": "42",
         "test_module": ["rvv_assembly_cocotb_test.py"],
         "deps": [

@@ -124,7 +124,7 @@ async def core_mini_rvv_add(dut):
 
     # todo ,np.uint8, np.uint16, np.uint32
     for data_type in [np.int8, np.int16, np.int32]:
-
+        print(f"Running test for data type={data_type}", flush=True)
         num_bytes = np.dtype(data_type).itemsize
         min_value = np.iinfo(data_type).min
         max_value = np.iinfo(data_type).max
@@ -136,7 +136,9 @@ async def core_mini_rvv_add(dut):
         if intial_pass:
             intial_pass = False
             await core_mini_axi.execute_from(entry_point)
+        print("Waiting for wfi", flush=True)
         await core_mini_axi.wait_for_wfi()
+        print("Waited for wfi", flush=True)
         routputs = (await core_mini_axi.read(input_1_addr, num_test_bytes)).view(data_type)
         print(f"loaded inputs are {routputs}", flush=True)
         routputs2 = (await core_mini_axi.read(input_1_addr, num_test_bytes)).view(data_type)

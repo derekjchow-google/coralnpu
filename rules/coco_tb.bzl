@@ -57,6 +57,7 @@ def _verilator_cocotb_model_impl(ctx):
             -o {hdl_toplevel} \
             -LDFLAGS "-Wl,-rpath {cocotb_lib_path} -L{cocotb_lib_path} -lcocotbvpi_verilator" \
             {trace} \
+            "--trace-structs" \
             {cflags} \
             $PWD/{verilator_cpp} \
             {vlt_file} \

@@ -21,6 +21,8 @@ VERILATOR_BUILD_ARGS = [
     "-Wno-SIDEEFFECT",
     "-Wno-MULTIDRIVEN",
     "-Wno-UNOPTFLAT",
+    "-Wno-BLKANDNBLK",
+    "-Wno-fatal",
     # Warnings that we disable for fpnew
     "-Wno-ASCRANGE",
     "-Wno-WIDTHEXPAND",

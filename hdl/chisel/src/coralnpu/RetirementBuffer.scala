@@ -437,6 +437,20 @@ class RetirementBuffer(p: Parameters, mini: Boolean = false) extends Module {
 
   for (i <- 0 until bufferSize) {
     val valid = (i.U < instBuffer.io.deqReady)
+    // if (!mini) {
+    //   when(valid) {
+    //     printf("Retired instruction: PC=0x%x, inst=0x%x, trap=%d\n",
+    //       instBuffer.io.dataOut(i).addr,
+    //       instBuffer.io.dataOut(i).inst,
+    //       resultUpdate(i).bits.trap)
+    //   }
+    // } else {
+    //   when(valid) {
+    //     printf("Retired instruction: PC=0x%x, trap=%d\n",
+    //       instBuffer.io.dataOut(i).addr,
+    //       resultUpdate(i).bits.trap)
+    //   }
+    // }
     val allowDebug = resultUpdate(i).bits.trap && instBuffer.io.dataOut(i).isControlFlow && noFire0Fault
     io.debug.inst(i).valid := valid
     io.debug.inst(i).bits.pc := MuxOR(valid, instBuffer.io.dataOut(i).addr)

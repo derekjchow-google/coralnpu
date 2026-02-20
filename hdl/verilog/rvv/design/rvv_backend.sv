@@ -53,8 +53,8 @@ module rvv_backend
 
 `ifdef TB_SUPPORT
     rd_valid_rob2rt_o,
-    rd_rob2rt_o,
 `endif   
+    rd_rob2rt_o,
 
     rvv_idle
 );
@@ -115,9 +115,9 @@ module rvv_backend
 // retire information
   `ifdef TB_SUPPORT
     output  logic     [`NUM_RT_UOP-1:0]               rd_valid_rob2rt_o;
-    output  ROB2RT_t  [`NUM_RT_UOP-1:0]               rd_rob2rt_o;
   `endif
-    
+    output  ROB2RT_t  [`NUM_RT_UOP-1:0]               rd_rob2rt_o;
+
 // rvv_backend is not active.(IDLE)
     output  logic                                 rvv_idle;
 
@@ -423,7 +423,8 @@ module rvv_backend
         .M                (`NUM_DE_UOP),
         .N                (`NUM_DP_UOP),
         .ASYNC_RSTN       (1'b1),
-        .DEPTH            (`UQ_DEPTH)
+        .DEPTH            (`UQ_DEPTH),
+        .CHAOS_PUSH       (1'b1)
     ) u_uop_queue (
       // global
         .clk              (clk),
@@ -703,6 +704,17 @@ module rvv_backend
   `endif
 
     // LSU RS
+    logic [`NUM_LSU-1:0] lsu_rs_pop;
+    generate
+        for (i=0; i<`NUM_LSU; i++) begin: gen_lsu_rs_pop
+            if (i==0) begin: gen_first
+                assign lsu_rs_pop[i] = uop_lsu_valid_rvv2lsu[i] & uop_lsu_ready_lsu2rvv[i];
+            end else begin: gen_i
+                assign lsu_rs_pop[i] = lsu_rs_pop[i-1] & uop_lsu_valid_rvv2lsu[i] & uop_lsu_ready_lsu2rvv[i];
+            end
+        end
+    endgenerate
+
     multi_fifo #(
         .T            (UOP_RVV2LSU_t),
         .M            (`NUM_DP_UOP),
@@ -718,7 +730,7 @@ module rvv_backend
         .push         (rs_valid_dp2lsu),
         .datain       (rs_dp2lsu),
       // read
-        .pop          (uop_lsu_valid_rvv2lsu & uop_lsu_ready_lsu2rvv),
+        .pop          (lsu_rs_pop),
         .dataout      (uop_lsu_rvv2lsu),
       // fifo status
         .full         (),
@@ -735,7 +747,17 @@ module rvv_backend
     assign rs_ready_lsu2dp = ~lsu_rs_almost_full;
 
     // output valid and data to LSU
-    assign uop_lsu_valid_rvv2lsu = ~lsu_rs_almost_empty;
+    logic [`NUM_LSU-1:0] lsu_rs_valid_pre;
+    assign lsu_rs_valid_pre = ~lsu_rs_almost_empty;
+    generate
+        for (i=0; i<`NUM_LSU; i++) begin: gen_lsu_valid
+            if (i==0) begin: gen_first
+                assign uop_lsu_valid_rvv2lsu[i] = lsu_rs_valid_pre[i];
+            end else begin: gen_i
+                assign uop_lsu_valid_rvv2lsu[i] = lsu_rs_valid_pre[i] & (uop_lsu_valid_rvv2lsu[i-1] & uop_lsu_ready_lsu2rvv[i-1]);
+            end
+        end
+    endgenerate
 
     // LSU MAP INFO
     multi_fifo #(
@@ -1130,8 +1152,8 @@ module rvv_backend
   // retire information
 `ifdef TB_SUPPORT
   assign rd_valid_rob2rt_o = rd_valid_rob2rt & rd_ready_rt2rob;
-  assign rd_rob2rt_o       = rd_rob2rt;
 `endif
+  assign rd_rob2rt_o       = rd_rob2rt;
 
   // rvv_backend IDLE 
   assign rvv_idle = fifo_empty_cq2de&fifo_empty_lcq2de&uq_empty&rob_empty;

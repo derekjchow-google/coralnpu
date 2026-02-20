@@ -124,6 +124,13 @@ class SCore(p: Parameters) extends Module {
 
   fetch.io.linkPort := regfile.io.linkPort
 
+  // for (i <- 0 until p.instructionLanes) {
+  //   when (dispatch.io.inst(i).fire) {
+  //     val inst = dispatch.io.inst(i).bits
+  //     printf(cf"Dispatching slot=${i} addr=0x${inst.addr}%x inst=0x${inst.inst}%x\n")
+  //   }
+  // }
+
   // ---------------------------------------------------------------------------
   // Decode
   // Decode/Dispatch
