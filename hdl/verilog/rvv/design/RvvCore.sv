@@ -232,8 +232,8 @@ module RvvCore #(parameter N = 4,
     trap_valid_rvs2rvv = 0;
   end
 
-  ROB2RT_t [`NUM_RT_UOP-1:0] rd_rob2rt;
-  assign rd_rob2rt_o = rd_rob2rt;
+  // ROB2RT_t [`NUM_RT_UOP-1:0] rd_rob2rt;
+  // assign rd_rob2rt_o = rd_rob2rt;
 
   logic   [`ISSUE_LANE-1:0] insts_ready_cq2rvs;
   logic rvv_backend_idle;
@@ -281,7 +281,7 @@ module RvvCore #(parameter N = 4,
       .rd_valid_rob2rt_o(),
 `endif
       .rvv_idle(rvv_backend_idle),
-      .rd_rob2rt_o(rd_rob2rt)
+      .rd_rob2rt_o(rd_rob2rt_o)
   );
 
   // Connect vxsat signals to outputs (fixes C3 bug)

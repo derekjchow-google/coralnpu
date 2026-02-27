@@ -441,11 +441,11 @@ class CoreMiniAxiInterface:
         self.axi_master_write_resp.clear_valid()
 
   async def reset(self):
-    self.dut.io_aresetn.setimmediatevalue(1)
+    self.dut.io_aresetn.value = 1
     await Timer(self.clock_ns, unit="ns")
-    self.dut.io_aresetn.setimmediatevalue(0)
+    self.dut.io_aresetn.value = 0
     await Timer(self.clock_ns, unit="ns")
-    self.dut.io_aresetn.setimmediatevalue(1)
+    self.dut.io_aresetn.value = 1
     await Timer(self.clock_ns, unit="ns")
 
   async def halt(self):
