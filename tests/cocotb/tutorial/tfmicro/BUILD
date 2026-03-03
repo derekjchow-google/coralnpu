@@ -123,7 +123,7 @@ cocotb_test_suite(
     ],
     # testcases_vname = "RUN_MOBILENET_TEST",
     tests_kwargs = {
-        "waves": False,
+        "waves": True,
         "hdl_toplevel": "RvvCoreMiniHighmemAxi",
         "size": "enormous",
         "default_testcase_size": "medium",

@@ -324,7 +324,11 @@ class RetirementBuffer(p: Parameters, mini: Boolean = false) extends Module {
     // If the entry is active and its data dependency is met (or it has no dependency)...
     // Special care here for vector, as multiple instructions are allowed to be dispatched for the same destination register.
     // This differs from how the scalar/float scoreboards restrict dispatch.
-    val dataReady = (scalarWriteIdxMap.reduce(_|_) || floatWriteIdxMap.reduce(_|_) || vectorReady || nonWritingInstr || (storeInstr && storeComplete.valid && storeComplete.bits === bufferEntry.addr))
+    val dataReady = (scalarWriteIdxMap.reduce(_|_) ||
+                     floatWriteIdxMap.reduce(_|_) ||
+                     vectorReady ||
+                     nonWritingInstr ||
+                     (storeInstr && storeComplete.valid && storeComplete.bits === bufferEntry.addr))
     val isControlFlow = bufferEntry.isControlFlow
     val isBranch = bufferEntry.isBranch
     // For the last entry in the buffer, we can't see the next instruction yet (it hasn't been enqueued or wrapped visibly).
@@ -406,7 +410,8 @@ class RetirementBuffer(p: Parameters, mini: Boolean = false) extends Module {
   val hasTrap = resultUpdate.map(x => x.valid && x.bits.trap).reduce(_||_)
   val trapDetected = VecInit(resultUpdate.map(x => x.valid && x.bits.trap))
   val firstTrapIdx = PriorityEncoder(trapDetected)
-  val countValid = Cto(VecInit(resultUpdate.map(x => x.valid && x.bits.cfDone)).asUInt)
+  val foo = VecInit(resultUpdate.map(x => x.valid && x.bits.cfDone))
+  val countValid = Cto(foo.asUInt)
 
   val limit = firstTrapIdx + 1.U
   val trapReadyToRetire = hasTrap && (limit <= countValid)
@@ -437,20 +442,20 @@ class RetirementBuffer(p: Parameters, mini: Boolean = false) extends Module {
 
   for (i <- 0 until bufferSize) {
     val valid = (i.U < instBuffer.io.deqReady)
-    // if (!mini) {
-    //   when(valid) {
-    //     printf("Retired instruction: PC=0x%x, inst=0x%x, trap=%d\n",
-    //       instBuffer.io.dataOut(i).addr,
-    //       instBuffer.io.dataOut(i).inst,
-    //       resultUpdate(i).bits.trap)
-    //   }
-    // } else {
-    //   when(valid) {
-    //     printf("Retired instruction: PC=0x%x, trap=%d\n",
-    //       instBuffer.io.dataOut(i).addr,
-    //       resultUpdate(i).bits.trap)
-    //   }
-    // }
+    if (!mini) {
+      when(valid) {
+        printf("Retired instruction: PC=0x%x, inst=0x%x, trap=%d\n",
+          instBuffer.io.dataOut(i).addr,
+          instBuffer.io.dataOut(i).inst,
+          resultUpdate(i).bits.trap)
+      }
+    } else {
+      when(valid) {
+        printf("Retired instruction: PC=0x%x, trap=%d\n",
+          instBuffer.io.dataOut(i).addr,
+          resultUpdate(i).bits.trap)
+      }
+    }
     val allowDebug = resultUpdate(i).bits.trap && instBuffer.io.dataOut(i).isControlFlow && noFire0Fault
     io.debug.inst(i).valid := valid
     io.debug.inst(i).bits.pc := MuxOR(valid, instBuffer.io.dataOut(i).addr)
@@ -465,4 +470,19 @@ class RetirementBuffer(p: Parameters, mini: Boolean = false) extends Module {
       io.debug.inst(i).bits.vecWrites.get := 0.U.asTypeOf(io.debug.inst(i).bits.vecWrites.get)
     }
   }
+
+  // when ((instBuffer.io.nEnqueued > 0.U) &&
+  //       (instBuffer.io.dataOut(0).addr === 0x46C.U)) {
+  //   when (io.writeDataVector.get(0).valid) {
+  //     printf(cf"Tuturu~  ${io.writeDataVector.get(0).bits}\n")
+  //     printf(cf"deqReady: ${deqReady}\n")
+  //     // printf(cf"trapReadyToRetire: ${trapReadyToRetire}\n")
+  //     // printf(cf"limit: ${limit}\n")
+  //     // printf(cf"countValid: ${countValid}\n")
+  //     // printf(cf"firstTrapIdx: ${firstTrapIdx}\n")
+  //     printf(cf"foo: ${foo}\n")
+  //     printf(cf"resultUpdate: ${resultUpdate}\n")
+  //     printf(cf"resultBuffer(0): ${resultBuffer(0)}\n")
+  //   }
+  // }
 }

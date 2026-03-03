@@ -51,9 +51,7 @@ module rvv_backend
     vector_csr,
     vcsr_ready,
 
-`ifdef TB_SUPPORT
     rd_valid_rob2rt_o,
-`endif   
     rd_rob2rt_o,
 
     rvv_idle
@@ -113,9 +111,7 @@ module rvv_backend
     input   logic                                 vcsr_ready;
 
 // retire information
-  `ifdef TB_SUPPORT
     output  logic     [`NUM_RT_UOP-1:0]               rd_valid_rob2rt_o;
-  `endif
     output  ROB2RT_t  [`NUM_RT_UOP-1:0]               rd_rob2rt_o;
 
 // rvv_backend is not active.(IDLE)
@@ -1150,9 +1146,7 @@ module rvv_backend
     );
   
   // retire information
-`ifdef TB_SUPPORT
   assign rd_valid_rob2rt_o = rd_valid_rob2rt & rd_ready_rt2rob;
-`endif
   assign rd_rob2rt_o       = rd_rob2rt;
 
   // rvv_backend IDLE 

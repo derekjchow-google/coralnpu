@@ -134,6 +134,7 @@ object GenerateCoreShimSource {
     // Add rd_rob2rt_o interface outputs
     for (i <- 0 until instructionLanes) {
         moduleInterface += """
+            |    output rd_rob2rt_o_GENI_valid,
             |    output rd_rob2rt_o_GENI_w_valid,
             |    output [4:0] rd_rob2rt_o_GENI_w_index,
             |    output [127:0] rd_rob2rt_o_GENI_w_data,
@@ -278,6 +279,7 @@ object GenerateCoreShimSource {
         |""".stripMargin
 
     coreInstantiation += "  ROB2RT_t [3:0] rd_rob2rt_o;\n"
+    coreInstantiation += "  logic [3:0] rd_valid_rob2rt_o;\n"
     coreInstantiation += "  RVVInstruction trap_data;\n"
 
     coreInstantiation += """  RvvCore#(.N (GENN)) core(
@@ -326,6 +328,7 @@ object GenerateCoreShimSource {
         |      .config_state(config_state),
         |      .rvv_idle(rvv_idle),
         |      .queue_capacity(queue_capacity),
+        |      .rd_valid_rob2rt_o(rd_valid_rob2rt_o),
         |      .rd_rob2rt_o(rd_rob2rt_o),
         |      .trap_valid_o(trap_valid),
         |      .trap_data_o(trap_data),
@@ -335,7 +338,8 @@ object GenerateCoreShimSource {
     coreInstantiation += "  );\n"
 
     for (i <- 0 until instructionLanes) {
-      coreInstantiation += """  assign rd_rob2rt_o_GENI_w_valid = rd_rob2rt_o[GENI].w_valid;
+      coreInstantiation += """  assign rd_rob2rt_o_GENI_valid = rd_valid_rob2rt_o[GENI];
+      |  assign rd_rob2rt_o_GENI_w_valid = rd_rob2rt_o[GENI].w_valid;
       |  assign rd_rob2rt_o_GENI_w_index = rd_rob2rt_o[GENI].w_index;
       |  assign rd_rob2rt_o_GENI_w_data = rd_rob2rt_o[GENI].w_data;
       |  assign rd_rob2rt_o_GENI_w_type = rd_rob2rt_o[GENI].w_type;

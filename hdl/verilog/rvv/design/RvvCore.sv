@@ -91,6 +91,7 @@ module RvvCore #(parameter N = 4,
 
   // Writeback from reorder buffer
   output ROB2RT_t [`NUM_RT_UOP-1:0] rd_rob2rt_o,
+  output logic    [`NUM_RT_UOP-1:0] rd_valid_rob2rt_o,
 
   // Trap output
   output logic trap_valid_o,
@@ -277,9 +278,7 @@ module RvvCore #(parameter N = 4,
       .vcsr_valid(vcsr_valid),
       .vector_csr(vector_csr),
       .vcsr_ready(vcsr_ready),
-`ifdef TB_SUPPORT
-      .rd_valid_rob2rt_o(),
-`endif
+      .rd_valid_rob2rt_o(rd_valid_rob2rt_o),
       .rvv_idle(rvv_backend_idle),
       .rd_rob2rt_o(rd_rob2rt_o)
   );

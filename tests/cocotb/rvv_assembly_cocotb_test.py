@@ -734,56 +734,56 @@ async def vslideup_test(dut):
         return np.concat((
             dest[0:offset], src[0:max(vl-offset, 0)]))
 
-    cases = [
-        {'impl': 'vslideup_i8mf4', 'dtype': np.int8, 'vl': vl, 'offset': offset}
-        for vl in [4] for offset in [4]
-    ]
     # cases = [
     #     {'impl': 'vslideup_i8mf4', 'dtype': np.int8, 'vl': vl, 'offset': offset}
-    #     for vl in [4, 3] for offset in [0, 1, 2, 4]
-    # ] + [
-    #     {'impl': 'vslideup_i8mf2', 'dtype': np.int8, 'vl': vl, 'offset': offset}
-    #     for vl in [8, 7] for offset in [0, 2, 6, 8]
-    # ] + [
-    #     {'impl': 'vslideup_i8m1', 'dtype': np.int8, 'vl': vl, 'offset': offset}
-    #     for vl in [16, 15] for offset in [0, 3, 14, 16]
-    # ] + [
-    #     {'impl': 'vslideup_i8m2', 'dtype': np.int8, 'vl': vl, 'offset': offset}
-    #     for vl in [32, 31] for offset in [0, 4, 30, 32]
-    # ] + [
-    #     {'impl': 'vslideup_i8m4', 'dtype': np.int8, 'vl': vl, 'offset': offset}
-    #     for vl in [64, 63] for offset in [0, 5, 62, 64]
-    # ] + [
-    #     {'impl': 'vslideup_i8m8', 'dtype': np.int8, 'vl': vl, 'offset': offset}
-    #     for vl in [128, 127] for offset in [0, 6, 126, 128]
-    # ] + [
-    #     {'impl': 'vslideup_i16mf2', 'dtype': np.int16, 'vl': vl, 'offset': offset}
-    #     for vl in [4, 3] for offset in [0, 1, 2, 4]
-    # ] + [
-    #     {'impl': 'vslideup_i16m1', 'dtype': np.int16, 'vl': vl, 'offset': offset}
-    #     for vl in [8, 7] for offset in [0, 2, 6, 8]
-    # ] + [
-    #     {'impl': 'vslideup_i16m2', 'dtype': np.int16, 'vl': vl, 'offset': offset}
-    #     for vl in [16, 15] for offset in [0, 3, 14, 16]
-    # ] + [
-    #     {'impl': 'vslideup_i16m4', 'dtype': np.int16, 'vl': vl, 'offset': offset}
-    #     for vl in [32, 31] for offset in [0, 4, 30, 32]
-    # ] + [
-    #     {'impl': 'vslideup_i16m8', 'dtype': np.int16, 'vl': vl, 'offset': offset}
-    #     for vl in [64, 63] for offset in [0, 5, 62, 64]
-    # ] + [
-    #     {'impl': 'vslideup_i32m1', 'dtype': np.int32, 'vl': vl, 'offset': offset}
-    #     for vl in [4, 3] for offset in [0, 1, 2, 4]
-    # ] + [
-    #     {'impl': 'vslideup_i32m2', 'dtype': np.int32, 'vl': vl, 'offset': offset}
-    #     for vl in [8, 7] for offset in [0, 2, 6, 8]
-    # ] + [
-    #     {'impl': 'vslideup_i32m4', 'dtype': np.int32, 'vl': vl, 'offset': offset}
-    #     for vl in [16, 15] for offset in [0, 3, 14, 16]
-    # ] + [
-    #     {'impl': 'vslideup_i32m8', 'dtype': np.int32, 'vl': vl, 'offset': offset}
-    #     for vl in [32, 31] for offset in [0, 4, 30, 32]
+    #     for vl in [4] for offset in [4]
     # ]
+    cases = [
+        {'impl': 'vslideup_i8mf4', 'dtype': np.int8, 'vl': vl, 'offset': offset}
+        for vl in [4, 3] for offset in [0, 1, 2, 4]
+    ] + [
+        {'impl': 'vslideup_i8mf2', 'dtype': np.int8, 'vl': vl, 'offset': offset}
+        for vl in [8, 7] for offset in [0, 2, 6, 8]
+    ] + [
+        {'impl': 'vslideup_i8m1', 'dtype': np.int8, 'vl': vl, 'offset': offset}
+        for vl in [16, 15] for offset in [0, 3, 14, 16]
+    ] + [
+        {'impl': 'vslideup_i8m2', 'dtype': np.int8, 'vl': vl, 'offset': offset}
+        for vl in [32, 31] for offset in [0, 4, 30, 32]
+    ] + [
+        {'impl': 'vslideup_i8m4', 'dtype': np.int8, 'vl': vl, 'offset': offset}
+        for vl in [64, 63] for offset in [0, 5, 62, 64]
+    ] + [
+        {'impl': 'vslideup_i8m8', 'dtype': np.int8, 'vl': vl, 'offset': offset}
+        for vl in [128, 127] for offset in [0, 6, 126, 128]
+    ] + [
+        {'impl': 'vslideup_i16mf2', 'dtype': np.int16, 'vl': vl, 'offset': offset}
+        for vl in [4, 3] for offset in [0, 1, 2, 4]
+    ] + [
+        {'impl': 'vslideup_i16m1', 'dtype': np.int16, 'vl': vl, 'offset': offset}
+        for vl in [8, 7] for offset in [0, 2, 6, 8]
+    ] + [
+        {'impl': 'vslideup_i16m2', 'dtype': np.int16, 'vl': vl, 'offset': offset}
+        for vl in [16, 15] for offset in [0, 3, 14, 16]
+    ] + [
+        {'impl': 'vslideup_i16m4', 'dtype': np.int16, 'vl': vl, 'offset': offset}
+        for vl in [32, 31] for offset in [0, 4, 30, 32]
+    ] + [
+        {'impl': 'vslideup_i16m8', 'dtype': np.int16, 'vl': vl, 'offset': offset}
+        for vl in [64, 63] for offset in [0, 5, 62, 64]
+    ] + [
+        {'impl': 'vslideup_i32m1', 'dtype': np.int32, 'vl': vl, 'offset': offset}
+        for vl in [4, 3] for offset in [0, 1, 2, 4]
+    ] + [
+        {'impl': 'vslideup_i32m2', 'dtype': np.int32, 'vl': vl, 'offset': offset}
+        for vl in [8, 7] for offset in [0, 2, 6, 8]
+    ] + [
+        {'impl': 'vslideup_i32m4', 'dtype': np.int32, 'vl': vl, 'offset': offset}
+        for vl in [16, 15] for offset in [0, 3, 14, 16]
+    ] + [
+        {'impl': 'vslideup_i32m8', 'dtype': np.int32, 'vl': vl, 'offset': offset}
+        for vl in [32, 31] for offset in [0, 4, 30, 32]
+    ]
     await vslide_test(dut, cases, expfunc)
 
 

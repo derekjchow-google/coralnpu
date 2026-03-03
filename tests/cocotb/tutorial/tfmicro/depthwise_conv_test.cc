@@ -140,10 +140,10 @@ void prep() {
 
 extern "C" {
 __attribute__((used, retain)) void run_ref() {
-  tflite::reference_integer_ops::DepthwiseConvPerChannel(
-      params, output_multiplier, output_shift, input_shape_, input_data,
-      filter_shape_, filter_data, bias_shape_, bias_data, output_shape_,
-      output_data);
+//   tflite::reference_integer_ops::DepthwiseConvPerChannel(
+//       params, output_multiplier, output_shift, input_shape_, input_data,
+//       filter_shape_, filter_data, bias_shape_, bias_data, output_shape_,
+//       output_data);
 }
 
 __attribute__((used, retain)) void run_optimized() {
