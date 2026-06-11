@@ -79,6 +79,11 @@ typedef struct packed {
   RVVSEW                        sew;
   RVVLMUL                       lmul;
   RVVLMUL                       lmul_orig;
+`ifdef ZVOPMM_ON
+  logic [13:0]                  tm;
+  logic [2:0]                   tk;
+  logic [1:0]                   mtwiden;
+`endif
 } RVVConfigState;
 
 // Enum to encode the major opcode of the instruction. See "Section 5. Vector
@@ -437,6 +442,15 @@ typedef struct packed {
                                                             // v0[i]=1 means vd/vs3[8*i +: 8] data is valid. 
 } UOP_RVV2LSU_t;    
 
+// LSU reservation station struct for VME
+typedef struct packed {
+`ifdef TB_SUPPORT
+  logic [`PC_WIDTH-1:0] uop_pc; // instruction PC
+  logic [`UOP_INDEX_WIDTH-1:0] uop_index; // the index of split uops
+`endif
+  logic [`VLEN-1:0] r_data; // data for store instruction
+} UOP_VME2LSU_t;
+
  // FMA reservation station struct
 typedef struct packed {   
 `ifdef TB_SUPPORT
@@ -508,6 +522,15 @@ typedef struct packed {
   // Store done signal to help ROB retire the store uop
   logic                               lsu_vstore_last;
 } UOP_LSU2RVV_t;  
+
+// LSU feedback to VME
+typedef struct packed {
+`ifdef TB_SUPPORT
+  logic [`PC_WIDTH-1:0] uop_pc; // instruction PC
+  logic [`UOP_INDEX_WIDTH-1:0] uop_index; // the index of split uops
+`endif
+  logic [`VLEN-1:0] w_data; // data for load instruction
+} UOP_LSU2VME_t;
 
 typedef struct packed {   
   UOP_LSU2RVV_t                       uop_lsu2rvv;

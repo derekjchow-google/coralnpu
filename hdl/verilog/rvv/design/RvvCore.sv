@@ -76,6 +76,18 @@ module RvvCore #(parameter N = 4,
   input  logic     [`NUM_LSU-1:0] uop_lsu_last_lsu2rvv,
   output logic     [`NUM_LSU-1:0] uop_lsu_ready_rvv2lsu,
 
+`ifdef ZVOPMM_ON
+  // VME to LSU
+  output logic     [`NUM_LSU-1:0] uop_lsu_valid_vme2lsu,
+  output VRegDataT [`NUM_LSU-1:0] uop_lsu_r_data_vme2lsu,
+  input  logic     [`NUM_LSU-1:0] uop_lsu_ready_lsu2vme,
+
+  // LSU to VME
+  input  logic     [`NUM_LSU-1:0] uop_lsu_valid_lsu2vme,
+  input  VRegDataT [`NUM_LSU-1:0] uop_lsu_w_data_lsu2vme,
+  output logic     [`NUM_LSU-1:0] uop_lsu_ready_vme2lsu,
+`endif  // ZVOPMM_ON
+
   // Vector CSR writeback
   output vcsr_valid,
   output RVVConfigState vector_csr,
@@ -176,6 +188,29 @@ module RvvCore #(parameter N = 4,
       end
     end
 
+
+`ifdef ZVOPMM_ON
+  // VME send LSU uop to RVS
+    UOP_VME2LSU_t     [`NUM_LSU-1:0]          uop_lsu_vme2lsu;
+    always_comb begin
+      for (int i = 0; i < `NUM_LSU; i++) begin
+        uop_lsu_r_data_vme2lsu[i] = uop_lsu_vme2lsu[i].r_data;
+      end
+    end
+
+  // LSU feedback to VME
+    UOP_LSU2VME_t     [`NUM_LSU-1:0]          uop_lsu_lsu2vme;
+    always_comb begin
+      for (int i = 0; i < `NUM_LSU; i++) begin
+        uop_lsu_lsu2vme[i].w_data = uop_lsu_w_data_lsu2vme[i];
+        `ifdef TB_SUPPORT
+              uop_lsu_lsu2vme[i].uop_pc = 0;
+              uop_lsu_lsu2vme[i].uop_index = 0;
+        `endif
+      end
+    end
+`endif
+
   // Scalar regfile write-back tie-offs
   // TODO(derekjchow): Properly arbitrate write-back tie-offs by extending
   // interface. For time being, only accept from slot 0.
@@ -251,6 +286,16 @@ module RvvCore #(parameter N = 4,
       .uop_lsu_valid_lsu2rvv(uop_lsu_valid_lsu2rvv),
       .uop_lsu_lsu2rvv(uop_lsu_lsu2rvv),
       .uop_lsu_ready_rvv2lsu(uop_lsu_ready_rvv2lsu),
+
+`ifdef ZVOPMM_ON
+      .uop_lsu_valid_vme2lsu(uop_lsu_valid_vme2lsu),
+      .uop_lsu_vme2lsu(uop_lsu_vme2lsu),
+      .uop_lsu_ready_lsu2vme(uop_lsu_ready_lsu2vme),
+
+      .uop_lsu_valid_lsu2vme(uop_lsu_valid_lsu2vme),
+      .uop_lsu_lsu2vme(uop_lsu_lsu2vme),
+      .uop_lsu_ready_vme2lsu(uop_lsu_ready_vme2lsu),
+`endif  // ZVOPMM_ON
 
       .rt_rvs_rvv2rvs(rt_rvs_rvv2rvs),
       .rt_xrf_valid_rvv2rvs(rt_xrf_valid_rvv2rvs),

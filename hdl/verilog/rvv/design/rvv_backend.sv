@@ -23,6 +23,16 @@ module rvv_backend
     uop_lsu_lsu2rvv,
     uop_lsu_ready_rvv2lsu,
 
+`ifdef ZVOPMM_ON
+    uop_lsu_valid_vme2lsu,
+    uop_lsu_vme2lsu,
+    uop_lsu_ready_lsu2vme,
+
+    uop_lsu_valid_lsu2vme,
+    uop_lsu_lsu2vme,
+    uop_lsu_ready_vme2lsu,
+`endif  // ZVOPMM_ON
+
     rt_xrf_valid_rvv2rvs,
     rt_rvs_rvv2rvs,
     rt_rvs_ready_rvs2rvv,
@@ -75,6 +85,17 @@ module rvv_backend
     input   logic         [`NUM_LSU-1:0]          uop_lsu_valid_lsu2rvv;
     input   UOP_LSU2RVV_t [`NUM_LSU-1:0]          uop_lsu_lsu2rvv;
     output  logic         [`NUM_LSU-1:0]          uop_lsu_ready_rvv2lsu;
+
+// Load/store vme interface
+`ifdef ZVOPMM_ON
+    output logic         [`NUM_LSU-1:0]          uop_lsu_valid_vme2lsu,
+    output UOP_VME2LSU_t [`NUM_LSU-1:0]          uop_lsu_vme2lsu,
+    input  logic         [`NUM_LSU-1:0]          uop_lsu_ready_lsu2vme,
+
+    input  logic         [`NUM_LSU-1:0]          uop_lsu_valid_lsu2vme,
+    input  UOP_LSU2VME_t [`NUM_LSU-1:0]          uop_lsu_lsu2vme,
+    output logic         [`NUM_LSU-1:0]          uop_lsu_ready_vme2lsu,
+`endif  // ZVOPMM_ON
 
 // RT to XRF. 
     output  logic         [`NUM_RT_UOP-1:0]       rt_xrf_valid_rvv2rvs;
