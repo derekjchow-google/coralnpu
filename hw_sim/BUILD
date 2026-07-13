@@ -62,6 +62,7 @@ cc_library(
         "coralnpu_simulator.h",
         "mailbox.h",
     ],
+    visibility = ["//visibility:public"],
 )
 
 cc_library(
@@ -73,6 +74,7 @@ cc_library(
         ":core_mini_axi_wrapper",
     ],
     alwayslink = True,
+    visibility = ["//visibility:public"],
 )
 
 cc_library(
@@ -121,4 +123,12 @@ cc_binary(
     linkshared = True,
     visibility = ["//visibility:public"],
     deps = [":core_mini_axi_simulator_rvv"],
+)
+
+genrule(
+    name = "debug_common_cells_path",
+    srcs = ["@common_cells//:all_srcs"],
+    outs = ["debug_path_out.txt"],
+    cmd = "echo '--- external ---' > $@; ls -R external >> $@ 2>&1 || true; echo '--- current ---' >> $@; ls -R . >> $@ 2>&1 || true",
+    visibility = ["//visibility:public"],
 )
