@@ -83,17 +83,21 @@ compatibility_proxy_repo()
 
 http_archive(
     name = "rules_jvm_external",
-    strip_prefix = "rules_jvm_external-6.6",
     sha256 = "3afe5195069bd379373528899c03a3072f568d33bd96fe037bd43b1f590535e7",
+    strip_prefix = "rules_jvm_external-6.6",
     url = "https://github.com/bazel-contrib/rules_jvm_external/releases/download/6.6/rules_jvm_external-6.6.tar.gz",
 )
 
 load("@rules_jvm_external//:repositories.bzl", "rules_jvm_external_deps")
+
 rules_jvm_external_deps()
+
 load("@rules_jvm_external//:setup.bzl", "rules_jvm_external_setup")
+
 rules_jvm_external_setup()
 
 load("@rules_jvm_external//:defs.bzl", "maven_install")
+
 maven_install(
     name = "coralnpu_maven",
     artifacts = [

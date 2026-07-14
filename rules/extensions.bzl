@@ -1,6 +1,6 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-load("//rules:repos.bzl", "cvfpu_repos", "rvvi_repos")
 load("//rules:host_cpus.bzl", "host_cpus")
+load("//rules:repos.bzl", "cvfpu_repos", "rvvi_repos")
 
 def _coralnpu_deps_ext_impl(ctx):
     # Call non-conflicting legacy repo definitions

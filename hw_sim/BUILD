@@ -69,12 +69,12 @@ cc_library(
     name = "core_mini_axi_simulator",
     srcs = ["core_mini_axi_simulator.cc"],
     linkstatic = True,
+    visibility = ["//visibility:public"],
     deps = [
         ":coralnpu_simulator_headers",
         ":core_mini_axi_wrapper",
     ],
     alwayslink = True,
-    visibility = ["//visibility:public"],
 )
 
 cc_library(
@@ -82,12 +82,12 @@ cc_library(
     srcs = ["core_mini_axi_simulator.cc"],
     copts = ["-DENABLE_RVV"],
     linkstatic = True,
+    visibility = ["//visibility:public"],
     deps = [
         ":coralnpu_simulator_headers",
         ":core_mini_axi_wrapper",
     ],
     alwayslink = True,
-    visibility = ["//visibility:public"],
 )
 
 coralnpu_v2_binary(

@@ -13,8 +13,8 @@
 # limitations under the License.
 
 load("@io_bazel_rules_scala//scala:scala.bzl", "scala_library")
-load("@rules_pkg//pkg:zip.bzl", "pkg_zip")
 load("@rules_java//java:defs.bzl", "java_import")
+load("@rules_pkg//pkg:zip.bzl", "pkg_zip")
 
 scala_library(
     name = "chisel_lib",
@@ -73,6 +73,7 @@ pkg_zip(
     out = "common_cells_resources.jar",
     package_dir = "external/common_cells",
 )
+
 java_import(
     name = "common_cells_resources",
     jars = [":common_cells_resources_zip"],
@@ -86,6 +87,7 @@ pkg_zip(
     out = "cvfpu_resources.jar",
     package_dir = "external/cvfpu",
 )
+
 java_import(
     name = "cvfpu_resources",
     jars = [":cvfpu_resources_zip"],
@@ -99,6 +101,7 @@ pkg_zip(
     out = "fpu_div_sqrt_mvp_resources.jar",
     package_dir = "external/fpu_div_sqrt_mvp",
 )
+
 java_import(
     name = "fpu_div_sqrt_mvp_resources",
     jars = [":fpu_div_sqrt_mvp_resources_zip"],
@@ -112,9 +115,9 @@ pkg_zip(
     out = "rvvi_resources.jar",
     package_dir = "external/RVVI",
 )
+
 java_import(
     name = "rvvi_resources",
     jars = [":rvvi_resources_zip"],
     visibility = ["//visibility:public"],
 )
-
