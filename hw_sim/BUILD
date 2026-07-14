@@ -87,6 +87,7 @@ cc_library(
         ":core_mini_axi_wrapper",
     ],
     alwayslink = True,
+    visibility = ["//visibility:public"],
 )
 
 coralnpu_v2_binary(
