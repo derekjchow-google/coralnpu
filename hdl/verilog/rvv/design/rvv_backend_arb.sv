@@ -129,11 +129,11 @@ module rvv_backend_arb(
         `ifdef ZVT_ON
           result_valid[2] = |grant_alu;
           result[2]       = grant_alu[0] ? item[2] : grant_alu[1] ? item[3] : item[10];
-          result_valid[3] = |(~grant_alu & req);
+          result_valid[3] = |(req_alu & ~grant_alu);
           result[3]       = !grant_alu[0]&req[2] ? item[2] : !grant_alu[2]&req[10] ? item[10] : item[3];
-          grant[2]        = grant_alu[0] || req[2];
-          grant[3]        = grant_alu[1] || (!req[2])&(!req[10])&req[3];
-          grant[10]       = grant_alu[2] || (!req[2])&req[10];
+          grant[2]        = grant_alu[0] || (result_valid[3] && !grant_alu[0] && req[2]);
+          grant[10]       = grant_alu[2] || (result_valid[3] && !(!grant_alu[0] && req[2]) && !grant_alu[2] && req[10]);
+          grant[3]        = grant_alu[1] || (result_valid[3] && !(!grant_alu[0] && req[2]) && !(!grant_alu[2] && req[10]) && !grant_alu[1] && req[3]);
         `else
           result_valid[2] = req[2];
           result[2]       = item[2];
