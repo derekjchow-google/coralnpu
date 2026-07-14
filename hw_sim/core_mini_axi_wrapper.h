@@ -22,7 +22,9 @@
 #include "hw_sim/hw_primitives.h"
 #include "hw_sim/mailbox.h"
 
-#ifdef ENABLE_RVV
+#ifdef ENABLE_VME
+#include "VVmeCoreMiniAxi.h"
+#elif defined(ENABLE_RVV)
 #include "VRvvCoreMiniAxi.h"
 #else
 #include "VCoreMiniAxi.h"
@@ -218,7 +220,9 @@ class CoreMiniAxiWrapper {
  private:
   VerilatedContext* const context_;
   CoralNPUMailbox mailbox_;
-#ifdef ENABLE_RVV
+#ifdef ENABLE_VME
+  VVmeCoreMiniAxi core_;
+#elif defined(ENABLE_RVV)
   VRvvCoreMiniAxi core_;
 #else
   VCoreMiniAxi core_;

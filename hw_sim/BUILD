@@ -38,6 +38,7 @@ cc_library(
         ":hw_primitives",
         "//hdl/chisel/src/coralnpu:core_mini_axi_cc_library_cc",
         "//hdl/chisel/src/coralnpu:rvv_core_mini_axi_cc_library_cc",
+        "//hdl/chisel/src/coralnpu:vme_core_mini_axi_cc_library_cc",
         "//hdl/verilog:sram_backdoor",
     ],
 )
@@ -81,6 +82,19 @@ cc_library(
     name = "core_mini_axi_simulator_rvv",
     srcs = ["core_mini_axi_simulator.cc"],
     copts = ["-DENABLE_RVV"],
+    linkstatic = True,
+    deps = [
+        ":coralnpu_simulator_headers",
+        ":core_mini_axi_wrapper",
+    ],
+    alwayslink = True,
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "core_mini_axi_simulator_vme",
+    srcs = ["core_mini_axi_simulator.cc"],
+    copts = ["-DENABLE_VME"],
     linkstatic = True,
     deps = [
         ":coralnpu_simulator_headers",
